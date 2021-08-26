@@ -1,0 +1,14 @@
+* {
+  color: white;
+}
+
+.about-update {
+  color: #94a3b8;
+}
+.loader-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}

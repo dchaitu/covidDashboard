@@ -1,0 +1,55 @@
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+}
+
+.order {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmed {
+  padding: 10px;
+  color: #ff073a;
+}
+.active {
+  color: #007bff;
+  padding: 10px;
+}
+
+.recovered {
+  color: #28a745;
+  padding: 10px;
+}
+
+.deceased {
+  color: #6c757d;
+  padding: 10px;
+}
+
+#box1:hover {
+  background-color: #331427;
+  border-radius: 12px;
+}
+
+#box2:hover {
+  background-color: #132240;
+  border-radius: 12px;
+}
+#box3:hover {
+  background-color: #182829;
+  border-radius: 12px;
+}
+#box4:hover {
+  background-color: #212230;
+  border-radius: 12px;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+}

@@ -1,0 +1,24 @@
+.state-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.border-state-name {
+  color: #0ea5e9;
+  border-radius: 32px;
+  background: #0284c729;
+  margin: 20px;
+  padding: 11px, 21px, 11px, 21px;
+}
+.text-color {
+  color: #94a3b8;
+  font-size: 24px;
+}
+.district {
+  font-size: 16px;
+  color: #94a3b8;
+}
+.tested-people {
+  font-size: 24px;
+  color: #94a3b8;
+}

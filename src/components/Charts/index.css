@@ -1,0 +1,35 @@
+.border {
+  border-radius: 12px;
+  border-color: transparent !important;
+  padding: 10px;
+}
+
+.conf {
+  background-color: rgba(255, 7, 58, 0.12549019607843137);
+}
+.rec {
+  background-color: #182829;
+}
+.dec {
+  background-color: #1c1c2b;
+}
+.tested {
+  background-color: #230f41;
+}
+
+.x-axis-styles {
+  background-color: red;
+}
+
+.btn {
+  background: #1e1e30;
+  padding: 5px;
+  margin: 5px;
+}
+.daily {
+  color: #e2e8f0;
+}
+
+.com {
+  color: #64748b;
+}
