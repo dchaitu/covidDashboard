@@ -18,7 +18,6 @@ export default class StateWise extends Component {
   componentDidMount() {
     this.searchStateValue()
     this.searchDistrict()
-    // this.searchState()
   }
 
   searchStateValue = async () => {
@@ -55,7 +54,6 @@ export default class StateWise extends Component {
       console.log('Home results', stateData)
 
       const districts = Object.keys(stateData.districts)
-      //   console.log('districts', districts)
       this.setState({
         presentState: stateData,
         presentDistricts: districts,

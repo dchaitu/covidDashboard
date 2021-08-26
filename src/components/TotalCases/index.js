@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import BarCharts from '../BarCharts'
+import Numbers from '../Numbers'
 import check from '../Images/check-mark.png'
 import recover from '../Images/recovered.png'
 import protect from '../Images/protection.png'
