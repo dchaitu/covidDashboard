@@ -160,17 +160,6 @@ export const statesList = [
 ]
 
 class App extends Component {
-  //   state = {
-  //     selected: '',
-  //   }
-
-  //   handleChange = value => {
-  //     this.setState({
-  //       selected: value.state_name,
-  //     })
-  //     console.log(`Option selected:`, value.state_name)
-  //   }
-
   render() {
     // const {selected} = this.state
 

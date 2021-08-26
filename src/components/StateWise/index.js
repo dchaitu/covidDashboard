@@ -44,7 +44,8 @@ export default class StateWise extends Component {
         'https://data.covid19india.org/v4/min/data.min.json',
       )
       const data = await resp.json()
-      console.log('Name', stateName)
+
+      //   console.log('Name', stateName)
       const name = stateName[0].state_name
       this.setState({stateName: name})
 

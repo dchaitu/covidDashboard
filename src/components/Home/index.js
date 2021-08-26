@@ -1,10 +1,11 @@
 import {Component} from 'react'
 import Loader from 'react-loader-spinner'
-import {Redirect, Link, withRouter} from 'react-router-dom'
+import Numbers from '../Numbers'
 import Navbar from '../Navbar'
 import MySelect from '../MySelect'
 import Footer from '../Footer'
 import TotalCases from '../TotalCases'
+import TotalIcons from '../TotalIcons'
 import StateWise from '../StateWise'
 
 import './index.css'
@@ -25,6 +26,7 @@ export default class Home extends Component {
     recovered: '',
     states: [],
     active: '',
+    statesList: '',
   }
 
   componentDidMount() {
@@ -47,28 +49,34 @@ export default class Home extends Component {
 
       const {statesList} = this.props
       const codes = statesList.map(r => r.state_code)
-      const states = statesList.map(r => r.state_name)
-      //   console.log('Codes', codes)
+      const statesLists = statesList.map(cod => ({
+        stateName: cod.state_name,
+        code: cod.state_code,
+      }))
+      console.log('stateList =', statesLists)
+      console.log('Codes are =', Object.keys(fetchedData))
+
       //   console.log('States', states)
 
-      codes.forEach(code => {
-        confirmedCases.push(fetchedData[code].total.confirmed)
-        population.push(fetchedData[code].meta.population)
-      })
+      //   codes.forEach(code => {
+      //     confirmedCases.push(fetchedData[code].total.confirmed)
+      //     population.push(fetchedData[code].meta.population)
+      //   })
+
       const totalConfirmedCases = confirmedCases.reduce((a, b) => a + b, 0)
 
-      codes.forEach(code => {
-        deceasedCase.push(fetchedData[code].total.deceased)
-      })
+      //   codes.forEach(code => {
+      //     deceasedCase.push(fetchedData[code].total.deceased)
+      //   })
       const totalDeceasedCases = deceasedCase.reduce((a, b) => a + b, 0)
-      codes.forEach(code => {
-        recoveredCase.push(fetchedData[code].total.recovered)
-      })
+      //   codes.forEach(code => {
+      //     recoveredCase.push(fetchedData[code].total.recovered)
+      //   })
       const totalRecoveredCases = recoveredCase.reduce((a, b) => a + b, 0)
 
-      codes.forEach(code => {
-        activeCase.push(fetchedData[code].total.tested)
-      })
+      //   codes.forEach(code => {
+      //     activeCase.push(fetchedData[code].total.tested)
+      //   })
       const totalActiveCases = activeCase.reduce((a, b) => a + b, 0)
 
       const resp = await fetch(
@@ -77,16 +85,16 @@ export default class Home extends Component {
       const data = await resp.json()
       console.log('Data', data.states)
 
-      const options = data.states.map(value => ({
-        label: value.state_name,
-        value: value.state_id,
+      const options = data.states.map(code => ({
+        stateName: code.state_name,
+        stateId: code.state_id,
       }))
-
+      console.log('Options', options)
       this.setState({
         option: options,
         results: fetchedData,
         codes,
-        states,
+
         confirmed: confirmedCases,
         isLoading: false,
         recovered: recoveredCase,
@@ -97,6 +105,7 @@ export default class Home extends Component {
         totalActiveCases,
         totalDeceasedCases,
         totalPopulation: population,
+        statesList: statesLists,
       })
     }
   }
@@ -109,11 +118,9 @@ export default class Home extends Component {
     console.log(event)
     const {label, value} = event
     console.log(value)
-    // const id = 2
 
     const {history} = this.props
     history.push(`/state/${value}`)
-    // history.push(`/state/`)
   }
 
   render() {
@@ -124,14 +131,17 @@ export default class Home extends Component {
       active,
       deceased,
       states,
+      codes,
       totalConfirmedCases,
       totalActiveCases,
       totalRecoveredCases,
       totalDeceasedCases,
       option,
       totalPopulation,
+      results,
+      statesList,
     } = this.state
-
+    console.log('StatesList = ', statesList[0])
     return (
       <>
         {isLoading ? (
@@ -151,84 +161,40 @@ export default class Home extends Component {
                 />
               </div>
 
-              <TotalCases
-                confirmedCase={totalConfirmedCases}
-                deceasedCase={totalDeceasedCases}
-                recoveredCase={totalRecoveredCases}
-                activeCase={totalActiveCases}
+              <TotalIcons
+                confirmedCase=<Numbers x={totalConfirmedCases} />
+                deceasedCase=<Numbers x={totalDeceasedCases} />
+                recoveredCase=<Numbers x={totalRecoveredCases} />
+                activeCase=<Numbers x={totalActiveCases} />
               />
               <div className="container borders">
                 <div className="row">
-                  <div className="d-flex flex-column">
-                    {/* <p>hai</p>
-                    <hr /> */}
+                  <div className="d-flex justify-content-around">
+                    <p className="bold col-3">States/UT</p>
+                    <p className="bold">Confirmed</p>
+                    <p className="bold">Active</p>
+                    <p className="bold">Recovered</p>
+                    <p className="bold">Deceased</p>
+                    <p className="bold">Population</p>
                   </div>
-                  <div className="col-4">
-                    <ul className="none">
-                      <p className="bold">States/UT</p>
-                      <hr />
-                      {states.map(e => (
-                        <li className="li" key={e}>
-                          {e}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="col-1">
-                    <ul className="none">
-                      <p className="bold">Confirmed</p>
-                      <hr />
-                      {confirmed.map(e => (
-                        <li className="li-conf" key={e}>
-                          {e}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="col-2">
-                    <ul className="none">
-                      <p className="bold">Active</p>
-                      <hr />
-                      {active.map(e => (
-                        <li className="li-act" key={e}>
-                          {e}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="col-2">
-                    <ul className="none">
-                      <p className="bold">Recovered</p>
-                      <hr />
-                      {recovered.map(e => (
-                        <li className="li-rec" key={e}>
-                          {e}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="col-1">
-                    <ul className="none">
-                      <p className="bold">Deceased</p>
-                      <hr />
-                      {deceased.map(e => (
-                        <li className="li-dec" key={e}>
-                          {e}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="col-2">
-                    <ul className="none">
-                      <p className="bold">Population</p>
-                      <hr />
-                      {totalPopulation.map(e => (
-                        <li className="li-pop" key={e}>
-                          {e}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+
+                  <hr />
+                  <ul>
+                    {codes.map((code, index) => (
+                      <li key={code} className="li none">
+                        <div className="d-flex justify-content-around">
+                          <p className="col-3">{statesList[index].stateName}</p>
+
+                          <p>{results[code].total.confirmed}</p>
+                          <p>{results[code].total.tested}</p>
+                          <p>{results[code].total.recovered}</p>
+                          <p>{results[code].total.deceased}</p>
+                          <p>{results[code].meta.population}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                  {/* {results[]} */}
                 </div>
               </div>
             </div>

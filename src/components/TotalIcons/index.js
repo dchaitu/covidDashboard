@@ -8,7 +8,7 @@ import breathing from '../Images/breathing.png'
 
 import './index.css'
 
-export default class TotalCases extends Component {
+export default class TotalIcons extends Component {
   state = {
     confirmed: '',
     deceased: '',
@@ -28,26 +28,6 @@ export default class TotalCases extends Component {
     )
     const fetchedData = await response.json()
     console.log(fetchedData)
-  }
-
-  confirmedDistricts = () => {
-    console.log('Confirmed clicked')
-    this.setState({cases: 'confirmed', color: '#9A0E31'})
-  }
-
-  deceasedDistricts = () => {
-    console.log('deceased clicked')
-    this.setState({cases: 'deceased', color: '#474C57'})
-  }
-
-  recoveredDistricts = () => {
-    console.log('recovered clicked')
-    this.setState({cases: 'recovered', color: '#216837'})
-  }
-
-  testedDistricts = () => {
-    console.log('tested clicked')
-    this.setState({cases: 'tested', color: '#0A4FA0'})
   }
 
   render() {
@@ -100,20 +80,6 @@ export default class TotalCases extends Component {
             </div>
           </button>
         </div>
-        <h3 className="confirmed">Top Districts</h3>
-        <div className="container">
-          <div className="row">
-            {presentDistricts.map(district => (
-              <div className="col-3">
-                <p className="text-color">
-                  {presentState.districts[district].total[cases]}
-                  <span className="district"> {district}</span>
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-        <BarCharts code={code} cases={cases} fillColor={color} />
       </div>
     )
   }
