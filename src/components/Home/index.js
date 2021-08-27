@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import Loader from 'react-loader-spinner'
+import {FcGenericSortingAsc, FcGenericSortingDesc} from 'react-icons/fc'
 import Numbers from '../Numbers'
 import Navbar from '../Navbar'
 import MySelect from '../MySelect'
@@ -26,7 +27,6 @@ export default class Home extends Component {
     recovered: '',
     states: [],
     active: '',
-    statesList: '',
   }
 
   componentDidMount() {
@@ -39,7 +39,7 @@ export default class Home extends Component {
     )
     if (response.ok) {
       const fetchedData = await response.json()
-      //   console.log('Home results', fetchedData)
+      console.log('Home results', fetchedData)
       const confirmedCases = []
       const deceasedCase = []
       const recoveredCase = []
@@ -49,34 +49,23 @@ export default class Home extends Component {
 
       const {statesList} = this.props
       const codes = statesList.map(r => r.state_code)
-      const statesLists = statesList.map(cod => ({
-        stateName: cod.state_name,
-        code: cod.state_code,
-      }))
-      console.log('stateList =', statesLists)
+      const states = statesList.map(r => r.state_name)
       console.log('Codes are =', Object.keys(fetchedData))
 
-      //   console.log('States', states)
-
-      //   codes.forEach(code => {
-      //     confirmedCases.push(fetchedData[code].total.confirmed)
-      //     population.push(fetchedData[code].meta.population)
-      //   })
+      console.log('States', states)
+      codes.forEach(code => {
+        confirmedCases.push(fetchedData[code].total.confirmed)
+        deceasedCase.push(fetchedData[code].total.deceased)
+        population.push(fetchedData[code].meta.population)
+        recoveredCase.push(fetchedData[code].total.recovered)
+        activeCase.push(fetchedData[code].total.tested)
+      })
 
       const totalConfirmedCases = confirmedCases.reduce((a, b) => a + b, 0)
 
-      //   codes.forEach(code => {
-      //     deceasedCase.push(fetchedData[code].total.deceased)
-      //   })
       const totalDeceasedCases = deceasedCase.reduce((a, b) => a + b, 0)
-      //   codes.forEach(code => {
-      //     recoveredCase.push(fetchedData[code].total.recovered)
-      //   })
       const totalRecoveredCases = recoveredCase.reduce((a, b) => a + b, 0)
 
-      //   codes.forEach(code => {
-      //     activeCase.push(fetchedData[code].total.tested)
-      //   })
       const totalActiveCases = activeCase.reduce((a, b) => a + b, 0)
 
       const resp = await fetch(
@@ -86,15 +75,15 @@ export default class Home extends Component {
       console.log('Data', data.states)
 
       const options = data.states.map(code => ({
-        stateName: code.state_name,
-        stateId: code.state_id,
+        label: code.state_name,
+        value: code.state_id,
       }))
-      console.log('Options', options)
+
       this.setState({
         option: options,
         results: fetchedData,
         codes,
-
+        states,
         confirmed: confirmedCases,
         isLoading: false,
         recovered: recoveredCase,
@@ -105,7 +94,7 @@ export default class Home extends Component {
         totalActiveCases,
         totalDeceasedCases,
         totalPopulation: population,
-        statesList: statesLists,
+        statesList,
       })
     }
   }
@@ -141,7 +130,7 @@ export default class Home extends Component {
       results,
       statesList,
     } = this.state
-    console.log('StatesList = ', statesList[0])
+
     return (
       <>
         {isLoading ? (
@@ -170,7 +159,10 @@ export default class Home extends Component {
               <div className="container borders">
                 <div className="row">
                   <div className="d-flex justify-content-around">
-                    <p className="bold col-3">States/UT</p>
+                    <p className="bold col-3">
+                      States/UT
+                      <FcGenericSortingAsc /> <FcGenericSortingDesc />
+                    </p>
                     <p className="bold">Confirmed</p>
                     <p className="bold">Active</p>
                     <p className="bold">Recovered</p>
@@ -183,13 +175,25 @@ export default class Home extends Component {
                     {codes.map((code, index) => (
                       <li key={code} className="li none">
                         <div className="d-flex justify-content-around">
-                          <p className="col-3">{statesList[index].stateName}</p>
+                          <p className="col-3">
+                            {statesList[index].state_name}
+                          </p>
 
-                          <p>{results[code].total.confirmed}</p>
-                          <p>{results[code].total.tested}</p>
-                          <p>{results[code].total.recovered}</p>
-                          <p>{results[code].total.deceased}</p>
-                          <p>{results[code].meta.population}</p>
+                          <p className="li-conf">
+                            <Numbers x={results[code].total.confirmed} />
+                          </p>
+                          <p className="li-act">
+                            <Numbers x={results[code].total.tested} />
+                          </p>
+                          <p className="li-rec">
+                            <Numbers x={results[code].total.recovered} />
+                          </p>
+                          <p className="li-dec">
+                            <Numbers x={results[code].total.deceased} />
+                          </p>
+                          <p className="li-pop">
+                            <Numbers x={results[code].meta.population} />
+                          </p>
                         </div>
                       </li>
                     ))}

@@ -73,10 +73,15 @@ export default class Charts extends Component {
       <>
         <div className="p-5 m-3">
           <h2 className="pb-5">Spread Trends</h2>
-          <button key="button" className="btn com">
+          <button key="button" className=" com" type="button">
             Cumulative
           </button>
-          <button key="button" className="btn daily" value="Daily">
+          <button
+            key="button"
+            type="button"
+            className="btn daily"
+            value="Daily"
+          >
             Daily
           </button>
           <div className="p-5 m-3">
@@ -85,11 +90,6 @@ export default class Charts extends Component {
                 <Area dataKey="confirmed" />
                 <XAxis stroke="#FF073A" dataKey="date" />
                 <Legend
-                  payload={legendData.map(item => ({
-                    id: item.name,
-                    type: 'line',
-                    value: item.value,
-                  }))}
                   wrapperStyle={{margin: '5px', color: 'red'}}
                   layout="vertical"
                   verticalAlign="top"
@@ -112,11 +112,6 @@ export default class Charts extends Component {
                 <Area dataKey="recovered" />
                 <XAxis stroke="#27A243" dataKey="date" />
                 <Legend
-                  payload={legendData.map(item => ({
-                    id: legendData.name,
-                    type: 'line',
-                    value: item.value,
-                  }))}
                   wrapperStyle={{margin: '5px', color: 'green'}}
                   layout="vertical"
                   verticalAlign="top"
@@ -144,11 +139,6 @@ export default class Charts extends Component {
                 <Area dataKey="deceased" />
                 <XAxis stroke="#6C757D" dataKey="date" />
                 <Legend
-                  payload={legendData.map(item => ({
-                    id: legendData.name,
-                    type: 'line',
-                    value: item.value,
-                  }))}
                   wrapperStyle={{margin: '5px', color: '#6C757D'}}
                   layout="vertical"
                   verticalAlign="top"
@@ -171,11 +161,6 @@ export default class Charts extends Component {
                 <Area dataKey="tested" />
                 <XAxis stroke="#9673B9" dataKey="date" />
                 <Legend
-                  payload={legendData.map(item => ({
-                    id: legendData.name,
-                    type: 'line',
-                    value: item.value,
-                  }))}
                   wrapperStyle={{margin: '5px', color: '#9673B9'}}
                   layout="vertical"
                   verticalAlign="top"

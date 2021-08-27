@@ -8,7 +8,7 @@ class Footer extends Component {
   render() {
     return (
       <div className="center">
-        <img className="website-logo" src={logo} alt="website logo" />
+        <img className="footer-website-logo" src={logo} alt="website logo" />
         <p className="footer-para">
           we stand with everyone standing in front lines
         </p>

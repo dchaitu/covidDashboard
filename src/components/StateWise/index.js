@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import Navbar from '../Navbar'
-import Numbers from '../Numbers'
 import TotalCases from '../TotalCases'
+import Numbers from '../Numbers'
 import Footer from '../Footer'
 import './index.css'
 import Charts from '../Charts'
@@ -12,12 +12,14 @@ export default class StateWise extends Component {
     presentDistricts: '',
     districtName: '',
     stateName: '',
+    theState: '',
     stateCode: '',
   }
 
   componentDidMount() {
     this.searchStateValue()
     this.searchDistrict()
+    // this.searchState()
   }
 
   searchStateValue = async () => {
@@ -44,24 +46,54 @@ export default class StateWise extends Component {
         'https://data.covid19india.org/v4/min/data.min.json',
       )
       const data = await resp.json()
-
-      //   console.log('Name', stateName)
+      console.log('Name', stateName)
       const name = stateName[0].state_name
       this.setState({stateName: name})
-
+      //   console.log(
+      //     'names',
+      //     statesList.map(d => d.state_name),
+      //   )
+      //   const code
       const obj = statesList.filter(d => d.state_name === name)
       const stateCode = obj[0].state_code
+      //   console.log('StateCode', stateCode)
       const stateData = data[stateCode]
       console.log('Home results', stateData)
 
       const districts = Object.keys(stateData.districts)
+      console.log('districts', districts)
       this.setState({
         presentState: stateData,
         presentDistricts: districts,
         stateCode,
       })
+      //   districts.map(d => console.log(d, stateData.districts[d].total.confirmed))
     }
   }
+
+  //   searchState = async () => {
+  //     const response = await fetch(
+  //       'https://data.covid19india.org/v4/min/data.min.json',
+  //     )
+  //     if (response.ok) {
+  //       const fetchedData = await response.json()
+  //       //   console.log('props', this.props)
+  //       const {statesList} = this.props
+
+  //       console.log(
+  //         'names',
+  //         statesList.map(d => d.state_name),
+  //       )
+  //       //   const stateCode =
+  //       //   console.log('Code', stateCode)
+  //       //   const stateData = fetchedData[stateCode]
+  //       //   console.log('Home results', stateData)
+
+  //       //   const districts = Object.keys(stateData.districts)
+  //       //   this.setState({presentState: stateData, presentDistricts: districts})
+  //       //   districts.map(d => console.log(d, stateData.districts[d].total.confirmed))
+  //     }
+  //   }
 
   searchDistrict = async () => {
     const {match} = this.props
@@ -75,6 +107,11 @@ export default class StateWise extends Component {
       const fetchedDistricts = await resp.json()
       console.log('Districts', fetchedDistricts.districts)
       this.setState({presentDistricts: fetchedDistricts.districts})
+      //   const districtName = fetchedDistricts.districts.map(e => e.district_name)
+
+      //   this.setState({districtName: districts})
+      //   console.log('District Name', districtName)
+      //   districtName.map(e => console.log(e, districtName[e].total.confirmed))
     }
   }
 
@@ -105,9 +142,7 @@ export default class StateWise extends Component {
             </div>
             <div className="row">
               <p>Tested</p>
-              <p className="tested-people">
-                <Numbers x={presentState.total.tested} />
-              </p>
+              <p>{presentState.total.tested} </p>
             </div>
           </div>
           <TotalCases

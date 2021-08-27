@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import {Link} from 'react-router-dom'
 import logo from '../Images/logo.png'
 import './index.css'
 
@@ -17,7 +18,9 @@ export default class Navbar extends Component {
     return (
       <nav className="NavBarItems">
         <h1 className="Navbar-logo">
-          <img className="website-logo" src={logo} alt="website logo" />
+          <Link to="/">
+            <img className="website-logo" src={logo} alt="website logo" />
+          </Link>
         </h1>
         <div className="menu-icon">
           <i className={isClicked ? 'fas fa-times' : 'fas fa-bars'} />

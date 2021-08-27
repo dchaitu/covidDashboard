@@ -1,6 +1,6 @@
 import {Component} from 'react'
-import BarCharts from '../BarCharts'
 import Numbers from '../Numbers'
+import BarCharts from '../BarCharts'
 import check from '../Images/check-mark.png'
 import recover from '../Images/recovered.png'
 import protect from '../Images/protection.png'
@@ -28,6 +28,8 @@ export default class TotalCases extends Component {
     )
     const fetchedData = await response.json()
     console.log(fetchedData)
+    // const name = 'AN'
+    // console.log(fetchedData.name)
   }
 
   confirmedDistricts = () => {
@@ -63,55 +65,65 @@ export default class TotalCases extends Component {
     } = this.props
 
     console.log('presentState is = ', presentState)
-    console.log('presentDistricts =', presentDistricts)
+
     return (
       <div>
         <div className="order">
-          <button type="button" onClick={this.confirmedDistricts}>
-            <div id="box1" className="box">
-              <p className="confirmed">Confirmed</p>
-              <img src={check} alt="checked" />
-              {confirmed}
-              <p className="confirmed">{confirmedCase}</p>
+          <div className="container">
+            <div className="row">
+              <button type="button" onClick={this.confirmedDistricts}>
+                <div id="box1" className="box col-md-6">
+                  <p className="confirmed">Confirmed</p>
+                  <img src={check} alt="checked" />
+                  {confirmed}
+                  <p className="confirmed">{confirmedCase}</p>
+                </div>
+              </button>
+              <button type="button" onClick={this.testedDistricts}>
+                <div id="box2" className="box col-md-6">
+                  <p className="active">Active</p>
+                  <img src={protect} alt="tested" />
+                  {deceased}
+                  <p className="active">{activeCase}</p>
+                </div>
+              </button>
+              <button type="button" onClick={this.recoveredDistricts}>
+                <div id="box3" className="box col-md-6">
+                  <p className="recovered">Recovered</p>
+                  <img src={recover} alt="recovered" />
+                  {recovered}
+                  <p className="recovered">{recoveredCase}</p>
+                </div>
+              </button>
+              <button type="button" onClick={this.deceasedDistricts}>
+                <div id="box4" className="box col-md-6">
+                  <p className=" deceased">Deceased</p>
+                  <img src={breathing} alt="deceased" />
+                  {tested}
+                  <p className="deceased">{deceasedCase}</p>
+                </div>
+              </button>
             </div>
-          </button>
-          <button type="button" onClick={this.testedDistricts}>
-            <div id="box2" className="box">
-              <p className="active">Active</p>
-              <img src={protect} alt="tested" />
-              {deceased}
-              <p className="active">{activeCase}</p>
-            </div>
-          </button>
-          <button type="button" onClick={this.recoveredDistricts}>
-            <div id="box3" className="box">
-              <p className="recovered">Recovered</p>
-              <img src={recover} alt="recovered" />
-              {recovered}
-              <p className="recovered">{recoveredCase}</p>
-            </div>
-          </button>
-          <button type="button" onClick={this.deceasedDistricts}>
-            <div id="box4" className="box ">
-              <p className=" deceased">Deceased</p>
-              <img src={breathing} alt="deceased" />
-              {tested}
-              <p className="deceased">{deceasedCase}</p>
-            </div>
-          </button>
+          </div>
         </div>
         <h3 className="confirmed">Top Districts</h3>
         <div className="container">
-          <div className="row">
-            {presentDistricts.map(district => (
-              <div className="col-3">
-                <p className="text-color">
-                  {presentState.districts[district].total[cases]}
-                  <span className="district"> {district}</span>
-                </p>
-              </div>
-            ))}
-          </div>
+          <ul>
+            <div className="row">
+              {presentDistricts.map(district => (
+                <div className="col-3">
+                  <li key={district}>
+                    <p className="text-color">
+                      <Numbers
+                        x={presentState.districts[district].total[cases]}
+                      />
+                      <span className="district"> {district}</span>
+                    </p>
+                  </li>
+                </div>
+              ))}
+            </div>
+          </ul>
         </div>
         <BarCharts code={code} cases={cases} fillColor={color} />
       </div>

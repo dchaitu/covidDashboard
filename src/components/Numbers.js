@@ -1,5 +1,7 @@
 const Numbers = props => {
   const {x} = props
+  if (x === undefined) return 0
+
   const y = x.toString()
   let lastThree = y.substring(y.length - 3)
   const otherNumbers = y.substring(0, y.length - 3)
